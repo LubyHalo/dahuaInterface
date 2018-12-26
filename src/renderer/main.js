@@ -5,6 +5,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
+import './assets/css/base.css'
 
 // import axios from 'axios'
 import request from './utils/request'

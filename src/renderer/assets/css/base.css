@@ -1,0 +1,37 @@
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
+.request-tag {
+  padding: 7px 12px;
+  border-radius: 5px;
+  color: #fafafa;
+  cursor: default;
+  vertical-align: middle;
+}
+
+.card-title {
+  cursor: default;
+  padding-left: 5px;
+}
+
+.request-tag-get {
+  background-color: #49cc90;
+}
+
+.request-tag-post {
+  background-color: #61affe;
+}
+
+.request-tag-put {
+  background-color: #fca130;
+}
+
+.request-tag-delete {
+  background-color: #f93e3e;
+}

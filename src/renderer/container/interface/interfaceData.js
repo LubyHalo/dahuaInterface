@@ -1,5 +1,6 @@
 /* eslint-disable */
 const interfaceData = {
+  baseUrl: '/CardSolution',
   '1-1': [{
     title: '访客预约',
     url: '/card/visitor/insertVisitor',
@@ -85,7 +86,7 @@ const interfaceData = {
   }, {
     title: '查询单个访客信息',
     url: '/card/visitor/getVisitorSingleRecordById/7',
-    type: 'post',
+    type: 'get',
     params: {
     }
   }, {
