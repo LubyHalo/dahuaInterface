@@ -18,6 +18,7 @@
 .card-title {
   cursor: default;
   padding-left: 5px;
+  font-weight: bold;
 }
 
 .request-tag-get {

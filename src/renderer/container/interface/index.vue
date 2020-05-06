@@ -2,66 +2,28 @@
   <el-container>
     <el-aside width="201px">
       <el-scrollbar style="height: 100%">
-        <Sidebar :navList='navList' @navClick="getinterfaceContent"></Sidebar>
+        <Sidebar :navList='navList' @navClick="getInterfaceContent"></Sidebar>
       </el-scrollbar>
     </el-aside>
     <el-main>
       <!-- <pre style="overflow: hidden;">
         {{userInfo}}
       </pre> -->
-      <!-- <p v-for="n in (Math.ceil(interfaceContent.length/2) || 0)" :key="n">{{n}}</p> -->
-      <el-row v-for="(item, index) in cardData" :key="index">
-        <el-col :span="24">
-          <ListCardItem :cardData='item'></ListCardItem>
-        </el-col>
+      <el-row>
+        <el-button type="primary" icon="el-icon-plus" circle @click="addEmptyCard"></el-button>
       </el-row>
-      <el-row :gutter="10" v-for="n in (Math.ceil(interfaceContent.length/colNum) || 0)" :key="n">
+      <el-row v-for="newcard in newCardList" :key="newcard.key">
+        <ListCardItem :cardData='newcard' :isNewCard='true' @removeCard="removeEmptyCard"></ListCardItem>
+      </el-row>
+      <el-row :gutter="10" v-for="n in (Math.ceil(interfaceContent.length/colNum) || 0)" :key="currentNav + n">
         <el-col
-        :span="24/colNum"
-        v-for="(interfaceItem, index) in interfaceContent"
-        :key="index"
-        v-if="index >= (n-1) * colNum && index < n * colNum">
-          <el-card class="box-card" shadow="hover">
-            <div slot="header" class="clearfix">
-              <span :class="`request-tag-`+interfaceItem.type" class="request-tag">{{interfaceItem.type.toUpperCase()}}</span>
-              <span class="card-title">
-                {{interfaceItem.title}}
-              </span>
-              <span class="request-btn" style="float: right;">
-                <el-button size="mini" @click="testRequest(interfaceItem.url, interfaceItem.params, interfaceItem.type, index)" type="primary" plain :loading="isLoading">测试</el-button>
-              </span>
-            </div>
-            <el-input placeholder="请输入URL" v-model="interfaceItem.url" class="item">
-              <template slot="prepend">URL</template>
-            </el-input>
-            <div class="text item">
-              <p class="item-param-header">Params
-                <!-- <el-button style="float: right; padding: 3px 0" type="text">默认</el-button> -->
-              </p>
-              <!-- <pre class="item-param-content">{{ JSON.stringify(interfaceItem.params) === '{}' ?  '无参数' : interfaceItem.params }}</pre> -->
-              <jsonEditor
-                :value="JSON.stringify(interfaceItem.params, null, 1)"
-                @init="editorInit"
-                @input="editorDataChange"
-                lang="json" theme="github" width="100%" height="200">
-              </jsonEditor>
-            </div>
-            <div class="text">
-              <p class="item-param-header">Request Result
-                <el-button style="float: right; padding: 3px 0" type="text" @click="clearRequestRes()">清空</el-button>
-              </p>
-              <pre class="item-param-content">{{ currentItem === index ? (JSON.stringify(requestRes) === '{}' ?  '' : requestRes) : '' }}</pre>
-            </div>
-            <!-- <el-input
-              type="textarea"
-              :autosize="{ minRows: 2, maxRows: 4}"
-              placeholder="请输入内容"
-              :value="JSON.stringify(interfaceItem.params)">
-            </el-input> -->
-          </el-card>
+          :span="24/colNum"
+          v-for="(interfaceItem, index) in interfaceContent"
+          :key="interfaceItem.title + index"
+          v-if="index >= (n-1) * colNum && index < n * colNum">
+          <ListCardItem :cardData='interfaceItem' @refreshData="getInterfaceContent(currentNav)"></ListCardItem>
         </el-col>
       </el-row>
-      <!-- <el-footer height="30">copyright by xxb</el-footer> -->
     </el-main>
   </el-container>
 </template>
@@ -71,59 +33,27 @@ import Sidebar from 'components/layoutComponents/Sidebar'
 import ListCardItem from 'components/interface/ListCardItem'
 import { navList } from 'container/dahuaApi/nav'
 import interfaceApi from '@/api/interface'
-import interfaceData from './interfaceData'
-// 引入ace-editor
-import jsonEditor from 'vue2-ace-editor'
-import 'brace/ext/language_tools'
+// import interfaceData from './interfaceData'
 
 export default {
   name: 'interface',
   components: {
     Sidebar,
-    ListCardItem,
-    jsonEditor
+    ListCardItem
   },
   data () {
     return {
       navList,
+      // 新加借口列表
+      newCardList: [],
       // 接口列表变量
       interfaceContent: {},
+      // 获取当前点击导航得index
+      currentNav: '',
       // 每行标签展示数量(需要能被24整除，如1、2、3、4、6。。。)
       colNum: 1,
       // 登录用户数据
-      userInfo: {},
-      // 请求结果
-      requestRes: {},
-      // requestResStr: '',
-      currentItem: null,
-      // 按钮载入中样式控制
-      isLoading: false,
-      editData: '',
-      // 测试用数据
-      cardData: [{
-        title: '查询访客预约信息',
-        url: '/card/visitor/getVisitorData',
-        type: 'post',
-        params: {
-          pageNum: 1,
-          pageSize: 20
-        }
-      }, {
-        title: '统计在访人数',
-        url: '/card/visitor/countVisiting',
-        type: 'post',
-        params: {
-          pageNum: 1,
-          pageSize: 20
-        }
-      }]
-    }
-  },
-  watch: {
-    interfaceContent (newData, oldData) {
-      this.requestRes = {}
-      this.editData = ''
-      console.log('watch-editData:', this.editData)
+      userInfo: {}
     }
   },
   methods: {
@@ -140,60 +70,49 @@ export default {
       })
     },
     // 获取点击的导航的数据
-    getinterfaceContent (navIndex) {
-      this.interfaceContent = interfaceData[navIndex]
+    getInterfaceContent (navId) {
+      console.log(navId)
+      interfaceApi.getInterfaceListByCategoryId('/Interface/listByCatalogID', navId, res => {
+        this.currentNav = navId
+        this.newCardList = []
+        this.interfaceContent = res
+      })
+      // this.interfaceContent = interfaceData[navId]
     },
-    // 发起测试请求
-    testRequest (url, param, type, index) {
-      console.log(this.editData)
-      console.log(param)
-      param = (this.editData === '' ? param : JSON.parse(this.editData))
-      console.log(param)
-      if (type === 'get') {
-        interfaceApi.interfaceRequestGet(interfaceData.baseUrl + url, param, res => {
-          this.currentItem = index
-          this.requestRes = res
-        })
-      } else {
-        interfaceApi.interfaceRequestPost(interfaceData.baseUrl + url, param, res => {
-          this.currentItem = index
-          this.requestRes = res
-        })
-      }
-    },
-    // 清空请求数据
-    clearRequestRes () {
-      this.requestRes = {}
-      this.editData = ''
-    },
-    // 重置请求参数
-    // setDefaultParams () {
-    //   this.editData = ''
-    // },
     // 测试
     test (event) {
       console.log(event)
     },
-    // 初始化参数编辑器
-    editorInit (editor) {
-      require('brace/mode/json')
-      require('brace/theme/chrome')
-      require('brace/theme/github')
-      require('brace/snippets/javascript')
-      editor.setAutoScrollEditorIntoView(true)
-      editor.setOptions({
-        minLines: 5,
-        maxLines: 30
+    // 获取初始数据
+    getDefaultData () {
+      interfaceApi.getInterfaceList('/Interface/list', res => {
+        this.interfaceContent = res
       })
     },
-    // 参数编辑器改变监听
-    editorDataChange (context) {
-      this.editData = context
-      console.log('change-editData:', this.editData)
+    // 添加一个空白卡片
+    addEmptyCard () {
+      this.newCardList.push({
+        id: 0,
+        title: '',
+        url: '',
+        type: 'post',
+        params: '{}',
+        catalogID: this.currentNav,
+        key: Date.now()
+      })
+    },
+    // 删除一个空白卡片
+    removeEmptyCard (item) {
+      var index = this.newCardList.indexOf(item)
+      if (index !== -1) {
+        this.newCardList.splice(index, 1)
+      }
+      // console.log(item, index)
     }
   },
   created () {
     this.getToken()
+    // this.getDefaultData()
   }
 }
 </script>
@@ -216,48 +135,5 @@ p {
 
 .el-row {
   margin-bottom: 20px;
-}
-
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 10px;
-}
-
-.el-input-group__prepend {
-  color: #444444;
-  font-weight: bold;
-}
-
-.item-param-header{
-  padding: 0 20px;
-  background-color: #f5f7fa;
-  color: #444444;
-  font-weight: bold;
-  border: 1px solid #dcdfe6;
-  border-bottom: 0;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  padding: 0 20px;
-  line-height: 40px;
-}
-.item-param-content {
-  max-height: 500px;
-  overflow: auto;
-  margin: 0;
-  padding: 10px;
-  min-height: 1em;
-  border: 1px solid #dcdfe6;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  font-size: 12px;
-  font-family: inherit;
-}
-
-.ace_editor {
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
 }
 </style>

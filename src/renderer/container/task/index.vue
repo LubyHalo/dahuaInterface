@@ -1,47 +1,58 @@
 <template>
   <el-main>
+    <el-row>
+      <el-button type="primary" icon="el-icon-plus" circle @click="addTask"></el-button>
+    </el-row>
     <el-table
-    :data="tableData"
+    :data="taskData"
     border
     style="width: 100%">
       <el-table-column
         fixed
-        prop="date"
-        label="日期"
+        prop="createTime"
+        label="任务创建时间"
         width="150">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="姓名"
-        width="120">
+        prop="taskName"
+        label="任务名称">
       </el-table-column>
       <el-table-column
-        prop="province"
-        label="省份"
-        width="120">
+        prop="createPerson"
+        label="任务创建人">
       </el-table-column>
       <el-table-column
-        prop="city"
-        label="市区"
-        width="120">
+        prop="interfaceIDs"
+        label="任务接口">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>接口1: 测试1</p>
+            <p>接口2: 测试2</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.interfaceIDs }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="zip"
-        label="邮编"
-        width="120">
+        prop="taskStatus"
+        label="任务执行状态"
+        :filters="filters"
+        :filter-method="filterTag"
+        filter-placement="bottom-end">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.taskStatus === 1 ? 'primary' : 'success'"
+            disable-transitions>{{scope.row.taskStatus}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
-        label="操作"
-        width="100">
+        label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+          <el-button @click="handleClick(scope.row)" type="text" size="small">接口详情</el-button>
           <el-button type="text" size="small">编辑</el-button>
+          <el-button type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,45 +60,47 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    handleClick (row) {
-      console.log(row)
-    }
-  },
+import taskApi from '@/api/task'
 
+export default {
   data () {
     return {
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
+      taskData: [],
+      filters: [{
+        text: '执行中',
+        value: 1,
+        type: 'primary'
       }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
+        text: '执行成功',
+        value: 2,
+        type: 'success'
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
+        text: '执行出错',
+        value: 3,
+        type: 'error'
       }]
     }
+  },
+  methods: {
+    // 任务列表初始展示
+    getTaskList () {
+      taskApi.getTaskList('/Task/list', res => {
+        console.log(res)
+        this.taskData = res
+      })
+    },
+    handleClick (row) {
+      console.log(row)
+    },
+    filterTag (value, row) {
+      return row.taskStatus === value
+    },
+    addTask () {
+      console.log('Add a task!')
+    }
+  },
+  created () {
+    this.getTaskList()
   }
 }
 </script>

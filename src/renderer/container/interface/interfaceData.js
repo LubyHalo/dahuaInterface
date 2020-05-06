@@ -942,7 +942,7 @@ const interfaceData = {
   }, {
     title: '查询营业时间段',
     url: '/card/consumption/business_time',
-    type: 'post',
+    type: 'get',
     userId: true,
     params: {
     }
@@ -1066,13 +1066,13 @@ const interfaceData = {
   }, {
     title: '补贴参数是启用',
     url: '/card/consumption/subsidy_rule/initialization/1',
-    type: 'post',
+    type: 'get',
     params: {
     }
   }, {
     title: '补贴参数不启用',
     url: '/card/consumption/subsidy_rule/uninitialization/1',
-    type: 'post',
+    type: 'get',
     params: {
     }
   }, {

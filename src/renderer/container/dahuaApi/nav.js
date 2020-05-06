@@ -1,325 +1,225 @@
-// const navList1 = [{
-//   navTitle: '访客接口',
-//   index: '1',
-//   link: '/',
-//   subNavList: [{
-//     navTitle: '访客预约',
-//     index: '1-1',
-//     // 1.访客预约
-//     subNavList: [{
-//       navTitle: '访客预约',
-//       index: '1-1-1'
-//     }, {
-//       navTitle: '查询访客预约信息',
-//       index: '1-1-2'
-//     }, {
-//       navTitle: '查询访客预约信息',
-//       index: '1-1-3'
-//     }, {
-//       navTitle: '查询访客预约信息',
-//       index: '1-1-4'
-//     }]
-//   }, {
-//     navTitle: '访客信息',
-//     index: '1-2',
-//     // 2.访客信息
-//     subNavList: [{
-//       navTitle: '查询访客信息',
-//       index: '1-2-1'
-//     }, {
-//       navTitle: '访客退卡',
-//       index: '1-2-2'
-//     }, {
-//       navTitle: '统计在访人数',
-//       index: '1-2-3'
-//     }, {
-//       navTitle: '查询单个访客信息',
-//       index: '1-2-4'
-//     }, {
-//       navTitle: '修改访客卡号',
-//       index: '1-2-5'
-//     }]
-//   }, {
-//     navTitle: '访客黑名单',
-//     index: '1-3',
-//     // 3.访客黑名单
-//     subNavList: [{
-//       navTitle: '添加访客黑名单',
-//       index: '1-3-1'
-//     }, {
-//       navTitle: '查询黑名单',
-//       index: '1-3-2'
-//     }, {
-//       navTitle: '删除黑名单',
-//       index: '1-3-3'
-//     }, {
-//       navTitle: '修改访客黑名单',
-//       index: '1-3-4'
-//     }]
-//   }, {
-//     navTitle: '访客记录查询',
-//     index: '1-4',
-//     // 4.访客记录查询
-//     subNavList: [{
-//       navTitle: '超时报表',
-//       index: '1-4-1'
-//     }, {
-//       navTitle: '刷卡记录查询',
-//       index: '1-4-2'
-//     }]
-//   }, {
-//     navTitle: '岗亭管理',
-//     index: '1-5',
-//     // 5.岗亭管理
-//     subNavList: [{
-//       navTitle: '添加岗亭',
-//       index: '1-5-1'
-//     }, {
-//       navTitle: '修改岗亭',
-//       index: '1-5-2'
-//     }, {
-//       navTitle: '查询岗亭',
-//       index: '1-5-3'
-//     }, {
-//       navTitle: '删除岗亭',
-//       index: '1-5-4'
-//     }]
-//   }, {
-//     navTitle: '日志管理',
-//     index: '1-6',
-//     // 6.日志管理
-//     subNavList: [{
-//       navTitle: '设备状态日志',
-//       index: '1-6-1'
-//     }, {
-//       navTitle: '管理日志',
-//       index: '1-6-2'
-//     }]
-//   }]
-// }]
-
 const navList = [{
   title: '访客接口',
-  index: '1',
+  id: '001',
   link: '/',
   disabled: false,
   subNavList: [{
     title: '访客预约',
-    index: '1-1',
+    index: '001001',
     link: '/'
   }, {
     title: '访客信息',
-    index: '1-2',
+    index: '001002',
     link: '/'
   }, {
     title: '访客黑名单',
-    index: '1-3',
+    index: '001003',
     link: '/'
   }, {
     title: '访客记录查询',
-    index: '1-4',
+    index: '001004',
     link: '/'
   }, {
     title: '岗亭管理',
-    index: '1-5',
+    index: '001005',
     link: '/'
   }, {
     title: '日志管理',
-    index: '1-6',
+    index: '001006',
     link: '/'
   }]
 }, {
   title: '考勤接口(x)',
-  index: '2',
+  id: '002',
   link: '/',
   disabled: true,
   subNavList: [{
     title: '考勤点设置',
-    index: '2-1',
+    index: '002001',
     link: '/'
   }, {
     title: '考勤规则设置',
-    index: '2-2',
+    index: '002002',
     link: '/'
   }, {
     title: '班次设置',
-    index: '2-3',
+    index: '002003',
     link: '/'
   }, {
     title: '班组设置',
-    index: '2-4',
+    index: '002004',
     link: '/'
   }, {
     title: '排班设置',
-    index: '2-5',
+    index: '002005',
     link: '/'
   }, {
     title: '考勤调整',
-    index: '2-6',
+    index: '002006',
     link: '/'
   }, {
     title: '考勤日志',
-    index: '2-7',
+    index: '002007',
     link: '/'
   }, {
     title: '报表统计',
-    index: '2-8',
+    index: '002008',
     link: '/'
   }]
 }, {
   title: '门禁接口',
-  index: '3',
+  id: '003',
   link: '/',
   disabled: false,
   subNavList: [{
     title: '设备管理',
-    index: '3-1',
+    index: '003001',
     link: '/'
   }, {
     title: '开门计划',
-    index: '3-2',
+    index: '003002',
     link: '/'
   }, {
     title: '门组权限',
-    index: '3-3',
+    index: '003003',
     link: '/'
   }, {
     title: '按人授权',
-    index: '3-4',
+    index: '003004',
     link: '/'
   }, {
     title: '按门授权',
-    index: '3-5',
+    index: '003005',
     link: '/'
   }, {
     title: '发卡复核(x)',
-    index: '3-6',
+    index: '003006',
     link: '/'
   }, {
     title: '门通道控制',
-    index: '3-7',
+    index: '003007',
     link: '/'
   }, {
     title: '记录查询',
-    index: '3-8',
+    index: '003008',
     link: '/'
   }, {
     title: '设备状态日志',
-    index: '3-9',
+    index: '003009',
     link: '/'
   }, {
     title: '服务查询',
-    index: '3-10',
+    index: '003010',
     link: '/'
   }]
 }, {
   title: '人员卡片接口',
-  index: '4',
+  id: '004',
   link: '/',
   disabled: false,
   subNavList: [{
     title: '人员管理',
-    index: '4-1',
+    index: '004001',
     link: '/'
   }, {
     title: '卡片管理',
-    index: '4-2',
+    index: '004002',
     link: '/'
   }]
 }, {
   title: '梯控接口(x)',
-  index: '5',
+  id: '005',
   link: '/',
   disabled: true,
   subNavList: [{
     title: '梯控管理',
-    index: '5-1',
+    index: '005001',
     link: '/'
   }, {
     title: '梯控授权',
-    index: '5-2',
+    index: '005002',
     link: '/'
   }]
 }, {
   title: '系统配置接口(x)',
-  index: '6',
+  id: '006',
   link: '/',
   disabled: true,
   subNavList: [{
     title: '节假日配置',
-    index: '6-1',
+    index: '006001',
     link: '/'
   }, {
     title: '身份配置',
-    index: '6-2',
+    index: '006002',
     link: '/'
   }]
 }, {
   title: '消费接口',
-  index: '7',
+  id: '007',
   link: '/',
   disabled: false,
   subNavList: [{
     title: '营业单位管理',
-    index: '7-1',
+    index: '007001',
     link: '/'
   }, {
     title: '消费设备',
-    index: '7-2',
+    index: '007002',
     link: '/'
   }, {
     title: '规则设置',
-    index: '7-3',
+    index: '007003',
     link: '/'
   }, {
     title: '充值管理',
-    index: '7-4',
+    index: '007004',
     link: '/'
   }, {
     title: '日志查询',
-    index: '7-5',
+    index: '007005',
     link: '/'
   }, {
     title: '报表统计',
-    index: '7-6',
+    index: '007006',
     link: '/'
   }, {
     title: '参数设置',
-    index: '7-7',
+    index: '007007',
     link: '/'
   }, {
     title: '消费授权',
-    index: '7-8',
+    index: '007008',
     link: '/'
   }]
 }, {
   title: '巡更接口(x)',
-  index: '8',
+  id: '008',
   link: '/',
   disabled: true,
   subNavList: [{
     title: '巡更点设置',
-    index: '8-1',
+    index: '008001',
     link: '/'
   }, {
     title: '班组设置',
-    index: '8-2',
+    index: '008002',
     link: '/'
   }, {
     title: '线路设置',
-    index: '8-3',
+    index: '008003',
     link: '/'
   }, {
     title: '排班设置',
-    index: '8-4',
+    index: '008004',
     link: '/'
   }, {
     title: '记录查询',
-    index: '8-5',
+    index: '008005',
     link: '/'
   }, {
     title: '报表统计',
-    index: '8-6',
+    index: '008006',
     link: '/'
   }]
 }]

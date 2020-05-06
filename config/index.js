@@ -29,16 +29,41 @@ module.exports = {
       },
       '/interfaceApi': {
         target: 'http://60.191.94.122:9331',
+        secure: false,
         changeOrigin: true,
         pathRewrite: {
           '^/interfaceApi': ''
+        }
+      },
+      '/api': {
+        target: 'https://localhost:44345',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          // '^/api': ''
+        }
+      },
+      '/gov': {
+        target: 'http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/gov': ''
+        }
+      },
+      '/mock': {
+        target: 'https://easy-mock.com/mock/5b1b49ea496c9b36644e652c/request',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mock': ''
         }
       }
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8888, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
